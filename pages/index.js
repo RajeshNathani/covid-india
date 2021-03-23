@@ -1,65 +1,46 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
-export default function Home() {
+import Cases from '../components/Cases'
+import Footer from '../components/Footer'
+const index = (props) => {
+  const city = () => {
+      var StateName = document.getElementById('form').value;
+  }
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+    <div>
+      <br/>
+      <div className='container'>
+        <br/>
+          <h1>India Stats</h1> <br></br>
+          <div className='stats'>
+            <Cases text='Confirmed' number={props.res.data.summary.total} color='red'></Cases>
+            <Cases text='Active' number= {props.res.data.summary.total - props.res.data.summary.discharged - props.res.data.summary.deaths} color='blue'></Cases>
+            <Cases text='Discharged' number={props.res.data.summary.discharged} color='green'></Cases>
+            <Cases text='Deaths' number={props.res.data.summary.deaths} color='grey'></Cases>
+          </div> <br/>
+          <h2>Statewise Data</h2> <br/>
+          <div className='table-responsive'>
+          <table className='table table-striped'>
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Confirmed</th>
+                <th>Discharged</th>
+                <th>Deaths</th>
+              </tr>
+            </thead>
+            {props.res.data.regional.map(re=><tr><td>{re.loc}</td><td>{re.totalConfirmed}</td><td>{re.discharged}</td><td>{re.deaths}</td></tr>)}
+          </table></div>
+      </div>
+      <Footer/>
     </div>
-  )
+  );
+}
+
+export default index;
+
+export async function getStaticProps(){
+  const data = await fetch('https://api.rootnet.in/covid19-in/stats/latest')
+  const res = await data.json()
+  return {
+    props: {res}
+  } 
 }
