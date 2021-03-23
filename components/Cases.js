@@ -2,7 +2,7 @@ const Cases = ({text, number, color}) => {
     return (
         <div>
             <div className = 'cases'>
-                <h3>{text}</h3>
+                <h6>{text}</h6>
                 <p>{number}</p>
             </div>
             <style jsx>

@@ -6,12 +6,20 @@
     display: grid;
     grid-template-columns: 40% 60%;
     background-color: #0d8484;
+    color: red !important;
 }
 .banner{
     padding: 1%;
 }
 .heading{
     margin-left: 5%;
+    color : #958d8d
+}
+h1, h2{
+    color: #958d8d;
+}
+table{
+    color: #958d8d;    
 }
 .text{
     display: flex;
@@ -19,7 +27,7 @@
     justify-content: center;
     align-items: stretch;
     text-align: justify;
-    color: red;
+    color: red !important;
     font-size: xx-large;
 }
 .img{
